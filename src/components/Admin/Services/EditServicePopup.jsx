@@ -92,7 +92,7 @@ function EditServicePopup({
               onChange={handleEditOption}
               className="p-3 border-deep-orange-200 border rounded-md"
             >
-              <option value=" ">Select any option</option>
+              <option value="">Select any option</option>
               {data &&
                 data.map((item, key) => (
                   <option key={key} value={item.id}>

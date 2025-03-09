@@ -13,6 +13,7 @@ import {
 
 import {
   ref,
+  deleteObject,
   uploadBytes,
   uploadBytesResumable,
   getDownloadURL,
@@ -51,10 +52,10 @@ export async function getHDRSS() {
 export async function deleteGalleryPhotoHDRSS(photo) {
   try {
     const storageRef = ref(storage, photo);
-    await deleteObject(storageRef);
     await updateDoc(doc(db, "hdrss/details"), {
       gallery: arrayRemove(photo),
     });
+    await deleteObject(storageRef);
   } catch (e) {
     console.log(e);
   }

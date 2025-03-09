@@ -190,20 +190,24 @@ export const addExplore = async (
 ) => {
   try {
     const docUrl = `explore/${rootprevious}/${rootprevious}col/${beforeprevious}/${beforeprevious}col/${previous}/${previous}col`;
-    const photoUrl = await uploadPhoto(photo, name, rootprevious);
-    const backgroundPhotoUrl = await uploadBackgroundPhoto(
-      backgroundPhoto,
-      name,
-      rootprevious
-    );
-    await addDoc(collection(db, docUrl), {
+    if (photo) {
+      photoUrl = await uploadPhoto(photo, name, rootprevious);
+    }
+    
+    if (backgroundPhoto) {
+      backgroundPhotoUrl = await uploadBackgroundPhoto(backgroundPhoto, name, rootprevious);
+    }
+    await addDoc(collection(db, docUrl), 
+    Object.fromEntries(Object.entries({
       name: name,
       description: description,
       fullDescription: fullDescription,
       video: video,
       photo: photoUrl,
       backgroundPhoto: backgroundPhotoUrl,
-    });
+    }).filter(([_, v]) => v !== undefined))
+  
+  );
   } catch (e) {
     console.log(e);
   }

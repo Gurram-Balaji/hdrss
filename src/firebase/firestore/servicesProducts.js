@@ -303,6 +303,7 @@ export async function editServiceAndProductDocs(
           return newphotosUrl;
         })
       );
+      
       data.photos = newphotosUrls;
     }
 
@@ -310,12 +311,14 @@ export async function editServiceAndProductDocs(
       const newbackgroundUrl = await uploadBackground(type, newbackground, id);
       data.background = newbackgroundUrl;
     }
+
+    
     await updateDoc(
       doc(
         db,
         `${type}/${rootprevious}/${rootprevious}col/${beforeprevious}/${beforeprevious}col/${previous}/${previous}col/${id}`
       ),
-      data
+      Object.fromEntries(Object.entries(data).filter(([_, v]) => v !== undefined))
     );
     console.log("doc updated");
   } catch (e) {
